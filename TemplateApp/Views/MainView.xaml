@@ -7,9 +7,9 @@
         xmlns:local="clr-namespace:TemplateApp.Views"
         mc:Ignorable="d"
         Title="MainView" Height="350" Width="500">
-    <StackPanel>
-        <Label x:Name="Number"/>
-        <TextBox x:Name="RandomText"/>
+    <DockPanel>
+        <Label x:Name="Number" DockPanel.Dock="Top"/>
+        <TextBox x:Name="RandomText" DockPanel.Dock="Top"/>
         <ContentControl x:Name="SubContent"/>
-    </StackPanel>
+    </DockPanel>
 </adonis:AdonisWindow>

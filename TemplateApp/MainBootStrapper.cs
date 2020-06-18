@@ -19,7 +19,7 @@ namespace TemplateApp
             containerBuilder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
             containerBuilder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
 
-            containerBuilder.RegisterType<MainViewModel>().As<IMainViewModel>();
+            containerBuilder.RegisterType<MainViewModel>().As<IMainViewModel>().SingleInstance();
             containerBuilder.RegisterType<SubViewModel>().As<ISubViewModel>();
 
             container = containerBuilder.Build();
