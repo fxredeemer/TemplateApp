@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AdonisUI.ClassicTheme" Version="1.15.0" />
     <PackageReference Include="Autofac" Version="5.2.0" />
-    <PackageReference Include="Caliburn.Micro" Version="4.0.105-alpha" />
+    <PackageReference Include="Caliburn.Micro" Version="4.0.136-rc" />
   </ItemGroup>
 
 </Project>
