@@ -1,5 +1,5 @@
-﻿using Autofac;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -10,24 +10,23 @@ namespace TemplateApp
 {
     public class MainBootStrapper : BootstrapperBase
     {
-        private IContainer container;
+        private IServiceProvider container;
 
         protected override void Configure()
         {
-            var containerBuilder = new ContainerBuilder();
+            var containerBuilder = new ServiceCollection();
 
-            containerBuilder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
-            containerBuilder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
+            containerBuilder.AddSingleton<IEventAggregator, EventAggregator>();
+            containerBuilder.AddSingleton<IWindowManager, WindowManager>();
 
-            containerBuilder.RegisterType<MainViewModel>().As<IMainViewModel>().SingleInstance();
-            containerBuilder.RegisterType<SubViewModel>().As<ISubViewModel>();
+            containerBuilder.AddTransient<IMainViewModel, MainViewModel>();
+            containerBuilder.AddTransient<ISubViewModel, SubViewModel>();
 
-            container = containerBuilder.Build();
+            container = containerBuilder.BuildServiceProvider();
         }
 
         protected override void OnExit(object sender, EventArgs e)
         {
-            container.Dispose();
             base.OnExit(sender, e);
         }
 
@@ -46,17 +45,12 @@ namespace TemplateApp
             if (service == null)
                 throw new ArgumentNullException(nameof(service));
 
-            return container.Resolve(service);
+            return container.GetService(service);
         }
 
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
-            return container.Resolve(typeof(IEnumerable<>).MakeGenericType(service)) as IEnumerable<object>;
-        }
-
-        protected override void BuildUp(object instance)
-        {
-            container.InjectProperties(instance);
+            return container.GetServices(service);
         }
 
         protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
