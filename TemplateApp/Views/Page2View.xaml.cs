@@ -2,9 +2,9 @@
 
 namespace TemplateApp.Views
 {
-    public partial class SubView : UserControl
+    public partial class Page2View : UserControl
     {
-        public SubView()
+        public Page2View()
         {
             InitializeComponent();
         }

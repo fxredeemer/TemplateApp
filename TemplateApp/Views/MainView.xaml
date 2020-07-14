@@ -8,8 +8,14 @@
         mc:Ignorable="d"
         Title="MainView" Height="350" Width="500">
     <DockPanel>
-        <Label x:Name="Number" DockPanel.Dock="Top"/>
-        <TextBox x:Name="RandomText" DockPanel.Dock="Top"/>
-        <ContentControl x:Name="SubContent"/>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Label x:Name="SubItemTitle" Margin="0 0 8 0"/>
+            <Label x:Name="Number" DockPanel.Dock="Top"/>
+        </StackPanel>
+        <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
+            <Button x:Name="Previous" DockPanel.Dock="Left">Previous</Button>
+            <Button x:Name="Next" DockPanel.Dock="Right">Next</Button>
+        </DockPanel>
+        <ContentControl x:Name="ActiveItem"/>
     </DockPanel>
 </adonis:AdonisWindow>

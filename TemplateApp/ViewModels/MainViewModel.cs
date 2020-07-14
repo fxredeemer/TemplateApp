@@ -1,23 +1,56 @@
-﻿namespace TemplateApp.ViewModels
+﻿using Caliburn.Micro;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace TemplateApp.ViewModels
 {
-    public interface IMainViewModel
+    internal interface IMainViewModel
     {
-        string RandomText { get; set; }
+        string SubItemTitle { get; }
         int Number { get; }
-        ISubViewModel SubContent { get; }
+
+        Task Previous();
+        Task Next();
     }
 
-    public class MainViewModel : IMainViewModel
+    internal class MainViewModel : Conductor<IPageViewModel>, IMainViewModel
     {
-        public MainViewModel(ISubViewModel subViewModel)
+        private readonly IList<IPageViewModel> pages = new List<IPageViewModel>();
+
+        public MainViewModel(
+            IPage1ViewModel firstPage,
+            IPage2ViewModel secondPage)
         {
-            SubContent = subViewModel;
+            pages.Add(firstPage);
+            pages.Add(secondPage);
+
+            ActivateItemAsync(pages.First());
         }
 
         public string RandomText { get; set; }
 
         public int Number => 1337;
 
-        public ISubViewModel SubContent { get; }
+        public string SubItemTitle => ActiveItem.Title;
+
+        public async Task Next()
+        {
+            var pageIndex = pages.IndexOf(ActiveItem);
+            pageIndex++;
+            pageIndex = pageIndex > pages.Count - 1 ? pages.Count - 1 : pageIndex;
+
+            await ActivateItemAsync(pages[pageIndex]);
+            NotifyOfPropertyChange(nameof(SubItemTitle));
+        }
+
+        public async Task Previous()
+        {
+            var pageIndex = pages.IndexOf(ActiveItem);
+            pageIndex--;
+            pageIndex = pageIndex < 0 ? 0 : pageIndex;
+
+            await ActivateItemAsync(pages[pageIndex]);
+        }
     }
 }

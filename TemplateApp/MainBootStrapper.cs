@@ -8,7 +8,7 @@ using TemplateApp.ViewModels;
 
 namespace TemplateApp
 {
-    public class MainBootStrapper : BootstrapperBase
+    internal class MainBootStrapper : BootstrapperBase
     {
         private IServiceProvider container;
 
@@ -20,7 +20,8 @@ namespace TemplateApp
             containerBuilder.AddSingleton<IWindowManager, WindowManager>();
 
             containerBuilder.AddTransient<IMainViewModel, MainViewModel>();
-            containerBuilder.AddTransient<ISubViewModel, SubViewModel>();
+            containerBuilder.AddTransient<IPage1ViewModel, Page1ViewModel>();
+            containerBuilder.AddTransient<IPage2ViewModel, Page2ViewModel>();
 
             container = containerBuilder.BuildServiceProvider();
         }
