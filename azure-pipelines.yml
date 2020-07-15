@@ -5,9 +5,19 @@ pool:
   vmImage: 'windows-2019'
 
 variables:
+  patch: $[counter('VersionCounter', 0)]
   buildConfiguration: 'Release'
 
+name: 0.$(patch)
+
 steps:
+- task: PowerShell@2
+  displayName: Update manifest file version
+  inputs:
+    filePath: 'build\update-version.ps1'
+    arguments: '$(Build.BuildNumber)'
+    pwsh: true
+
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
