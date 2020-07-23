@@ -7,8 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Menu DockPanel.Dock="Top">
+        <MenuItem Header="_File">
+            <MenuItem x:Name="Exit" Header="_Exit"/>
+        </MenuItem>
         <MenuItem Header="_Settings">
             <MenuItem IsCheckable="True" IsChecked="{Binding DarkTheme}" Header="_DarkTheme" />
         </MenuItem>
+        
     </Menu>
 </UserControl>

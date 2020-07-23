@@ -11,11 +11,14 @@ namespace TemplateApp.ViewModels
     class MenuViewModel : PropertyChangedBase, IMenuViewModel
     {
         private readonly ISettingsManager settingsManager;
+        private readonly IApplicationManager applicationManager;
 
-        public MenuViewModel(ISettingsManager settingsManager)
+        public MenuViewModel(
+            ISettingsManager settingsManager,
+            IApplicationManager applicationManager)
         {
             this.settingsManager = settingsManager;
-
+            this.applicationManager = applicationManager;
             settingsManager.PropertyChanged += (_, __) => Refresh();
         }
 
@@ -23,6 +26,11 @@ namespace TemplateApp.ViewModels
         {
             get => settingsManager.UseDarkTheme;
             set => settingsManager.UseDarkTheme = value;
+        }
+
+        public void Exit()
+        {
+            applicationManager.Close();
         }
     }
 }
