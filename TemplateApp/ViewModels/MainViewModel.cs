@@ -9,6 +9,7 @@ namespace TemplateApp.ViewModels
     {
         string SubItemTitle { get; }
         int Number { get; }
+        IMenuViewModel Menu { get; }
 
         Task Previous();
         Task Next();
@@ -19,9 +20,11 @@ namespace TemplateApp.ViewModels
         private readonly IList<IPageViewModel> pages = new List<IPageViewModel>();
 
         public MainViewModel(
+            IMenuViewModel menuViewModel,
             IPage1ViewModel firstPage,
             IPage2ViewModel secondPage)
         {
+            Menu = menuViewModel;
             pages.Add(firstPage);
             pages.Add(secondPage);
 
@@ -33,6 +36,8 @@ namespace TemplateApp.ViewModels
         public int Number => 1337;
 
         public string SubItemTitle => ActiveItem.Title;
+
+        public IMenuViewModel Menu { get; }
 
         public async Task Next()
         {

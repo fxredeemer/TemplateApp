@@ -23,6 +23,7 @@ namespace TemplateApp
             serviceCollection.AddScoped<ISettingsManager, SettingsManager>();
 
             serviceCollection.AddTransient<IMainViewModel, MainViewModel>();
+            serviceCollection.AddTransient<IMenuViewModel, MenuViewModel>();
             serviceCollection.AddTransient<IPage1ViewModel, Page1ViewModel>();
             serviceCollection.AddTransient<IPage2ViewModel, Page2ViewModel>();
 
@@ -47,7 +48,9 @@ namespace TemplateApp
         protected override object GetInstance(Type service, string key)
         {
             if (service == null)
+            {
                 throw new ArgumentNullException(nameof(service));
+            }
 
             return serviceProvider.GetService(service);
         }
