@@ -4,26 +4,29 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
+using TemplateApp.Settings;
 using TemplateApp.ViewModels;
 
 namespace TemplateApp
 {
     internal class MainBootStrapper : BootstrapperBase
     {
-        private IServiceProvider container;
+        private IServiceProvider serviceProvider;
 
         protected override void Configure()
         {
-            var containerBuilder = new ServiceCollection();
+            var serviceCollection = new ServiceCollection();
 
-            containerBuilder.AddSingleton<IEventAggregator, EventAggregator>();
-            containerBuilder.AddSingleton<IWindowManager, WindowManager>();
+            serviceCollection.AddSingleton<IEventAggregator, EventAggregator>();
+            serviceCollection.AddSingleton<IWindowManager, WindowManager>();
 
-            containerBuilder.AddTransient<IMainViewModel, MainViewModel>();
-            containerBuilder.AddTransient<IPage1ViewModel, Page1ViewModel>();
-            containerBuilder.AddTransient<IPage2ViewModel, Page2ViewModel>();
+            serviceCollection.AddScoped<ISettingsManager, SettingsManager>();
 
-            container = containerBuilder.BuildServiceProvider();
+            serviceCollection.AddTransient<IMainViewModel, MainViewModel>();
+            serviceCollection.AddTransient<IPage1ViewModel, Page1ViewModel>();
+            serviceCollection.AddTransient<IPage2ViewModel, Page2ViewModel>();
+
+            serviceProvider = serviceCollection.BuildServiceProvider();
         }
 
         protected override void OnExit(object sender, EventArgs e)
@@ -46,12 +49,12 @@ namespace TemplateApp
             if (service == null)
                 throw new ArgumentNullException(nameof(service));
 
-            return container.GetService(service);
+            return serviceProvider.GetService(service);
         }
 
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
-            return container.GetServices(service);
+            return serviceProvider.GetServices(service);
         }
 
         protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
