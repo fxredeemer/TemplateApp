@@ -17,6 +17,7 @@ namespace TemplateApp.Settings
             {
                 Settings.Default.UseDarkTheme = value;
                 Settings.Default.Save();
+                NotifyOfPropertyChange();
             }
         }
     }

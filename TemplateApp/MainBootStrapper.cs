@@ -21,6 +21,7 @@ namespace TemplateApp
             serviceCollection.AddSingleton<IWindowManager, WindowManager>();
 
             serviceCollection.AddScoped<ISettingsManager, SettingsManager>();
+            serviceCollection.AddScoped<IApplicationManager, ApplicationManager>();
 
             serviceCollection.AddTransient<IMainViewModel, MainViewModel>();
             serviceCollection.AddTransient<IMenuViewModel, MenuViewModel>();
@@ -42,6 +43,9 @@ namespace TemplateApp
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
+            var applicationManager = serviceProvider.GetService<IApplicationManager>();
+            applicationManager.Initialize();
+
             DisplayRootViewFor<IMainViewModel>();
         }
 
