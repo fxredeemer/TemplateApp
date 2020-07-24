@@ -39,3 +39,13 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+
+- task: GitHubRelease@1
+  inputs:
+    gitHubConnection: 'github.com_fxredeemer'
+    repositoryName: 'fxredeemer/TemplateApp'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'gitTag'
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'
