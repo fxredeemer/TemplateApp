@@ -1,7 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using Stylet;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace TemplateApp.ViewModels
 {
@@ -10,8 +8,8 @@ namespace TemplateApp.ViewModels
         string SubItemTitle { get; }
         int Number { get; }
 
-        Task Previous();
-        Task Next();
+        void Previous();
+        void Next();
     }
 
     internal class MainViewModel : Conductor<IPageViewModel>, IMainViewModel
@@ -25,7 +23,7 @@ namespace TemplateApp.ViewModels
             pages.Add(firstPage);
             pages.Add(secondPage);
 
-            ActivateItemAsync(pages.First());
+            ActivateItem(pages[0]);
         }
 
         public string RandomText { get; set; }
@@ -34,23 +32,23 @@ namespace TemplateApp.ViewModels
 
         public string SubItemTitle => ActiveItem.Title;
 
-        public async Task Next()
+        public void Next()
         {
             var pageIndex = pages.IndexOf(ActiveItem);
             pageIndex++;
             pageIndex = pageIndex > pages.Count - 1 ? pages.Count - 1 : pageIndex;
 
-            await ActivateItemAsync(pages[pageIndex]);
+            ActivateItem(pages[pageIndex]);
             NotifyOfPropertyChange(nameof(SubItemTitle));
         }
 
-        public async Task Previous()
+        public void Previous()
         {
             var pageIndex = pages.IndexOf(ActiveItem);
             pageIndex--;
             pageIndex = pageIndex < 0 ? 0 : pageIndex;
 
-            await ActivateItemAsync(pages[pageIndex]);
+            ActivateItem(pages[pageIndex]);
         }
     }
 }

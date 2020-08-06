@@ -1,4 +1,4 @@
-﻿using Caliburn.Micro;
+﻿using Stylet;
 
 namespace TemplateApp.ViewModels
 {
@@ -13,7 +13,7 @@ namespace TemplateApp.ViewModels
         private string randomText;
 
         public string Title => "Page1";
-        
+
         public string SubItemData => $"Page 1 Content : {RandomText}";
 
         public string RandomText

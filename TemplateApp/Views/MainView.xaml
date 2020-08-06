@@ -4,18 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:adonis="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
-        xmlns:local="clr-namespace:TemplateApp.Views"
+        xmlns:s="https://github.com/canton7/Stylet"
         mc:Ignorable="d"
         Title="MainView" Height="350" Width="500">
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-            <Label x:Name="SubItemTitle" Margin="0 0 8 0"/>
-            <Label x:Name="Number" DockPanel.Dock="Top"/>
+            <Label Content="{Binding SubItemTitle}" Margin="0 0 8 0"/>
+            <Label Content="{Binding Number}" DockPanel.Dock="Top"/>
         </StackPanel>
         <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
-            <Button x:Name="Previous" DockPanel.Dock="Left">Previous</Button>
-            <Button x:Name="Next" DockPanel.Dock="Right">Next</Button>
+            <Button Command="{s:Action Previous}" DockPanel.Dock="Left">Previous</Button>
+            <Button Command="{s:Action Next}" DockPanel.Dock="Right">Next</Button>
         </DockPanel>
-        <ContentControl x:Name="ActiveItem"/>
+        <ContentControl s:View.Model="{Binding ActiveItem}"/>
     </DockPanel>
 </adonis:AdonisWindow>

@@ -1,64 +1,20 @@
-﻿using Caliburn.Micro;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Stylet;
+using StyletIoC;
 using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Threading;
 using TemplateApp.ViewModels;
 
 namespace TemplateApp
 {
-    internal class MainBootStrapper : BootstrapperBase
+    internal class MainBootStrapper : Bootstrapper<MainViewModel>
     {
-        private IServiceProvider container;
-
-        protected override void Configure()
+        protected override void ConfigureIoC(IStyletIoCBuilder builder)
         {
-            var containerBuilder = new ServiceCollection();
+            builder.Bind<IEventAggregator>().To<EventAggregator>();
+            builder.Bind<IWindowManager>().To<WindowManager>();
 
-            containerBuilder.AddSingleton<IEventAggregator, EventAggregator>();
-            containerBuilder.AddSingleton<IWindowManager, WindowManager>();
-
-            containerBuilder.AddTransient<IMainViewModel, MainViewModel>();
-            containerBuilder.AddTransient<IPage1ViewModel, Page1ViewModel>();
-            containerBuilder.AddTransient<IPage2ViewModel, Page2ViewModel>();
-
-            container = containerBuilder.BuildServiceProvider();
-        }
-
-        protected override void OnExit(object sender, EventArgs e)
-        {
-            base.OnExit(sender, e);
-        }
-
-        public MainBootStrapper()
-        {
-            Initialize();
-        }
-
-        protected override void OnStartup(object sender, StartupEventArgs e)
-        {
-            DisplayRootViewFor<IMainViewModel>();
-        }
-
-        protected override object GetInstance(Type service, string key)
-        {
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
-
-            return container.GetService(service);
-        }
-
-        protected override IEnumerable<object> GetAllInstances(Type service)
-        {
-            return container.GetServices(service);
-        }
-
-        protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
-        {
-            e.Handled = true;
-
-            MessageBox.Show(e.Exception.Message, "An error as occurred", MessageBoxButton.OK);
+            builder.Bind<IMainViewModel>().To<MainViewModel>();
+            builder.Bind<IPage1ViewModel>().To<Page1ViewModel>();
+            builder.Bind<IPage2ViewModel>().To<Page2ViewModel>();
         }
     }
 }
